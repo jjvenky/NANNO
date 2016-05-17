@@ -1,0 +1,26 @@
+Package: NANNO
+Title: Nitrogen Isotope Biogeochemical Model For Freshwaters
+Version: 0.0.0.9000
+Date: 2016-05-15
+Authors@R: person("Jason", "Venkiteswaran",
+                  email = "jvenkiteswaran@wlu.ca",
+                  role = c("aut", "cre"))
+Description: NANNO creates a nitrogen isotope biogeochemical model
+    for use in freshwaters via the simecol package. NANNO can be used
+    to forward simulate changes in nitrogen concentrations and isotopic
+    ratios. NANNO can also be used iteratively to model-fit field data.
+    NANNO was initially developed to describe changes in nitrogen
+    concentrations and isotopic ratios in a wastewater treatment plant
+    plumes in rivers.
+Depends:
+    R (>= 3.2),
+    simecol (>= 0.8-7)
+License: GPL-3
+LazyData: true
+Imports:
+    ggplot2 (>= 2.1),
+    gridExtra (>= 2.2),
+    reshape2 (>= 1.4)
+URL: https://github.com/jjvenky/NANNO
+BugReports: https://github.com/jjvenky/NANNO/issues
+RoxygenNote: 5.0.1

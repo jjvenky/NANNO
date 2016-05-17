@@ -1,0 +1,10 @@
+variable,lower,upper,initial
+kge,0.0002,0.02,
+knit1,0.0001,0.02,
+knit2,0.0005,0.04,
+kdenit,0.00001,0.01,
+kamup,0.0001,0.01,
+anit1,0.975,1,
+anit2,0.975,1,
+adenit,0.97,1,
+aamup,0.98,1,
