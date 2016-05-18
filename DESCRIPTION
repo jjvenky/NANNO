@@ -1,7 +1,7 @@
 Package: NANNO
 Title: Nitrogen Isotope Biogeochemical Model For Freshwaters
-Version: 0.0.0.9000
-Date: 2016-05-15
+Version: 0.0.0.9001
+Date: 2016-05-18
 Authors@R: person("Jason", "Venkiteswaran",
                   email = "jvenkiteswaran@wlu.ca",
                   role = c("aut", "cre"))
