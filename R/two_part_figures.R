@@ -18,7 +18,7 @@ two_part_figure <- function(ysim) {
   g.bottom <- ggplot2::ggplot(reshape2::melt(subset(ysim, select = c(time, deltaNO3, deltaTAN, deltaDIN)), id.vars = "time"),
                               ggplot2::aes(x = time, y = value, colour = variable)) +
     ggplot2::geom_line(size = 1) +
-    ggplot2::labs(x = "Distance (m)", y = "δ¹⁵N (‰ vs air)", colour = "") +
+    ggplot2::labs(x = "Distance (m)", y = expression("\u3b4"^{15}*"N (\u2030 vs air)"), colour = "") +
     ggplot2::theme(legend.position = "bottom", legend.box = "horizontal") +
     ggplot2::scale_y_continuous(limits = c(0, 40)) +
     ggplot2::scale_colour_discrete(labels = c(expression(NO[3]^"-"), expression(TAN), expression(DIN)))
@@ -47,7 +47,7 @@ two_part_figure_all <- function(ysim) {
   g.bottom <- ggplot2::ggplot(reshape2::melt(subset(ysim, select = c(time, deltaNO2, deltaNO3, deltaTAN, deltaN2O, deltaDIN)), id.vars = "time"),
                               ggplot2::aes(x = time, y = value, colour = variable)) +
     ggplot2::geom_line(size = 1) +
-    ggplot2::labs(x = "Distance (m)", y = "δ¹⁵N (‰ vs air)", colour = "") +
+    ggplot2::labs(x = "Distance (m)", y = expression("\u3b4"^{15}*"N (\u2030 vs air)"), colour = "") +
     ggplot2::theme(legend.position = "bottom", legend.box = "horizontal") +
     ggplot2::scale_y_continuous(limits = c(-21, 40)) +
     ggplot2::scale_colour_discrete(labels = c(expression(NO[2]^"-"), expression(NO[3]^"-"), expression(TAN), expression(N[2] * O), expression(DIN)))
@@ -74,13 +74,13 @@ two_part_figure_with_obs <- function(ysim, yobs, obstime) {
     ggplot2::geom_point(data = reshape2::melt(subset(plyr::rename(cbind(obstime, yobs), c(obstime = "time")), select = c(time, NO3, TAN, DIN)), id.vars = "time"), size = 4) +
     ggplot2::labs(x = "", y = "Concentration (mgN/L)", colour = "") +
     ggplot2::theme(legend.position = "none", legend.box = "horizontal") +
-    ggplot2::scale_y_continuous(limits = c(0, max(yobs$TAN, rm.na = TRUE) + 1)) +
+    ggplot2::scale_y_continuous(limits = c(0, max(ysim$DIN, rm.na = TRUE) + 1)) +
     ggplot2::scale_colour_discrete(labels = c(expression(NO[3]^"-"), expression(TAN), expression(DIN)))
   g.bottom <- ggplot2::ggplot(reshape2::melt(subset(ysim, select = c(time, deltaNO3, deltaTAN, deltaDIN)), id.vars = "time"),
                               ggplot2::aes(x = time, y = value, colour = variable)) +
     ggplot2::geom_line(size = 1) +
     ggplot2::geom_point(data = reshape2::melt(subset(plyr::rename(cbind(obstime, yobs), c(obstime = "time")), select = c(time, deltaNO3, deltaTAN, deltaDIN)), id.vars = "time"), size = 4) +
-    ggplot2::labs(x = "Distance (m)", y = "δ¹⁵N (‰ vs air)", colour = "") +
+    ggplot2::labs(x = "Distance (m)", y = expression("\u3b4"^{15}*"N (\u2030 vs air)"), colour = "") +
     ggplot2::theme(legend.position = "bottom", legend.box = "horizontal") +
     ggplot2::scale_y_continuous(limits = c(0, 40)) + ggplot2::scale_colour_discrete(labels = c(expression(NO[3]^"-"), expression(TAN), expression(DIN)))
   g.all <- gridExtra::grid.arrange(g.top, g.bottom, heights = c(0.5, 0.5))
