@@ -31,9 +31,16 @@ NANNO_fit <- function(filename) {
 
   # Load parameters to be fit and bounds for parameters
   tmp <- NANNO_input_converting(filename)
-  lower <- data.frame(tmp["lower", ], row.names = c())
-  upper <- data.frame(tmp["upper", ], row.names = c())
-  initial <- data.frame(tmp["initial", ], row.names = c())
+
+  # If some initial values are blank use the mean of the lower and upper
+  # Can change this to random select a value if needed
+  for(i in 1:ncol(tmp)){
+    tmp[is.na(tmp[,i]), i] <- mean(tmp[,i], na.rm = TRUE)
+  }
+  # Need lower, upper, and initial as doubles with names
+  lower <- structure(c(as.numeric(tmp["lower", ])), .Names = names(tmp["lower", ]))
+  upper <- structure(c(as.numeric(tmp["upper", ])), .Names = names(tmp["upper", ]))
+  initial <- structure(c(as.numeric(tmp["initial", ])), .Names = names(tmp["initial", ]))
   rm(tmp)
 
   # Prepare data
@@ -83,22 +90,20 @@ NANNO_fit <- function(filename) {
   # but will have to do this for all parameters to improve fit with real data
   # Consider do it using the values from init()
   whichpar  <- c("kge", "knit1", "knit2", "kdenit", "kamup", "anit1", "anit2", "adenit", "aamup", "NO3", "isoNO3", "TAN", "isoTAN")
-  parms(tm1)[whichpar] <- c(kge = 0.002, knit1=0.001, knit2=0.005, kdenit=0.0001, kamup=0.001,
-                            anit1 = 0.99, anit2 = 0.99, adenit = 0.985, aamup = 0.996,
+  parms(tm1)[whichpar] <- c(initial,
                             NO3=yobs[1, "NO3"], isoNO3=yobs[1, "isoNO3"], TAN=yobs[1, "TAN"], isoTAN=yobs[1, "isoTAN"])
-  lower <- c(kge = 0.0002, knit1=0.0001, knit2=0.0005, kdenit=0.00001, kamup=0.0001,
-             anit1 = 0.975, anit2 = 0.975, adenit = 0.970, aamup = 0.980,
-             NO3=0.99*yobs[1, "NO3"], isoNO3=0.9995*yobs[1, "isoNO3"], TAN=0.99*yobs[1, "TAN"], isoTAN=0.9995*yobs[1, "isoTAN"])
-  upper <- c(kge = 0.02, knit1=0.02, knit2=0.04, kdenit=0.01, kamup=0.01,
-             anit1 = 1, anit2 = 1, adenit = 1, aamup = 1,
-             NO3=1.01*yobs[1, "NO3"], isoNO3=1.0005*yobs[1, "isoNO3"], TAN=1.01*yobs[1, "TAN"], isoTAN=1.0005*yobs[1, "isoTAN"])
+  lower <- c(lower,
+             NO3=0.999*yobs[1, "NO3"], isoNO3=0.9995*yobs[1, "isoNO3"], TAN=0.999*yobs[1, "TAN"], isoTAN=0.9995*yobs[1, "isoTAN"])
+  upper <- c(upper,
+             NO3=1.001*yobs[1, "NO3"], isoNO3=1.0005*yobs[1, "isoNO3"], TAN=1.001*yobs[1, "TAN"], isoTAN=1.0005*yobs[1, "isoTAN"])
 
   # Fit the data
   res <- fitOdeModel(tm1, whichpar = whichpar, obstime, yobs,
                      debuglevel=0, fn = ssqOdeModel,
-                     method = "Nelder-Mead", lower = lower, upper = upper,
+                     method = "PORT", lower = lower, upper = upper,
                      control = list(trace = TRUE),
-                     atol=1e-9, rtol=1e-9)
+                     atol=1e-9, rtol=1e-9,
+                     scale = 1/upper)
 
   # Assign fitted parameters to scenario tm1
   parms(tm1)[whichpar] <- res$par
@@ -113,6 +118,7 @@ NANNO_fit <- function(filename) {
   two_part_figure_with_obs(ysim1, yobs, obstime)
 
   print(res$par)
+  return(tm1)
 }
 
 
