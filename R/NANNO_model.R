@@ -1,7 +1,6 @@
 #' NANNO Model Function
 #'
 #' This function is the NANNO model. It is a forward-running model that can be coupled with a script to fit field data.
-#' @param
 #' @keywords NANNO
 #' @export
 #' @examples

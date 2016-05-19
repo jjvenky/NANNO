@@ -1,7 +1,6 @@
 #' Test the NANNO Function
 #'
 #' This function takes model results from the default NANNO_model() and creates a default figure
-#' @param
 #' @keywords NANNO
 #' @export
 #' @examples
