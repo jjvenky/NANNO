@@ -3,13 +3,16 @@
 #' This function takes model simulations and observations and calculates fitting statistics.
 #' @param ysim The NANNO model simulation results.
 #' @param yobs The field observations.
+#' @param obstime Field observation times
 #' @keywords NANNO
 #' @export
 #' @examples
-#' NANNO_fit_stats(ysim, yobs)
+#' NANNO_fit_stats(ysim, yobs, obstime)
 
 
-NANNO_fit_stats <- function (ysim, yobs) {
+NANNO_fit_stats <- function (ysim, yobs, obstime) {
+  Y <- ysim[obstime, ]
+
   data.frame(NO3 = c(cor(Y$NO3, yobs$NO3, use = "complete.obs", method = "pearson")^2,
                      sqrt(mean((Y$NO3 - yobs$NO3)^2, na.rm = TRUE)),
                      sum(!is.na(yobs$NO3))),
