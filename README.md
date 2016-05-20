@@ -33,7 +33,7 @@ To Cite NANNO
 
 If you use NANNO, please cite it as:
 
-* Venkiteswaran JJ, Schiff SL, Ingalls B. Fate of Wastewater Ammonia and Nitrate Discharged to a Canadian River. In Prep.
+* Venkiteswaran JJ, Schiff SL, Ingalls BP. Fate of Wastewater Ammonia and Nitrate Discharged to a Canadian River. In Prep.
 
 [simecol]:https://cran.r-project.org/web/packages/simecol/index.html
 [Issues]:https://github.com/jjvenky/NANNO/issues
