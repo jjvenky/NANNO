@@ -11,8 +11,8 @@
 TAN_speciation <- function (TAN, pH) {
   fNH3 <- (10^-9.25/10^-pH)/(1+10^-9.25/10^-pH)
   fNH4 <- 1 - fNH3
-  tmp <- c(TAN * fNH3,
-           TAN * fNH4
+  tmp <- c(NH3 = as.numeric(TAN * fNH3),
+           NH4 = as.numeric(TAN * fNH4)
   )
   return(tmp)
 }
@@ -39,8 +39,8 @@ TAN_isotope_speciation <- function (TAN, isoTAN, pH) {
   # 2. Convert that back to a regular alpha by subtracting that by 1
   # 3. Multiply this alpha (TAN-NH3 or TAN-NH4 alpha value) by isoTAN/TAN (to covnert that to a ratio)
   # 4. Multiply by the mass (NH3 or NH4) to get the iso value to return
-  tmp <-  c(isoTAN * (1 - ((1 - aeq) * fNH4)) / TAN * NH3,
-            isoTAN * (1 - ((1 - aeq) * fNH3))^-1 / TAN * NH4
+  tmp <-  c(isoNH3 = as.numeric(isoTAN * (1 - ((1 - aeq) * fNH4)) / TAN * NH3),
+            isoNH4 = as.numeric(isoTAN * (1 - ((1 - aeq) * fNH3))^-1 / TAN * NH4)
   )
   return(tmp)
 }

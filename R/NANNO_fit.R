@@ -50,7 +50,7 @@ NANNO_fit <- function(filename) {
   fNH3init <- (10^-9.25/10^-obspH)/(1+10^-9.25/10^-obspH)
   fNH4init <- 1 - fNH3init
   initdeltaTAN <- yobs[1, "deltaTAN"]
-  yobs <- subset(yobs, select = -c(X, deltaNH3, deltaNH4, deltaNO2, deltaNO3, deltaTAN, deltaN2O, pH))
+  yobs <- subset(yobs, select = -c(X, deltaTAN, deltaNO2, deltaNO3, deltaN2O, pH))
 
   # Set times
   times(tm1) <- obstime
