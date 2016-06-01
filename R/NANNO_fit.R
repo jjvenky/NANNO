@@ -23,6 +23,10 @@ NANNO_fit <- function(filename) {
   # Runtime
   runtime <- format(Sys.time(), "%Y%m%dT%H%M%S")
 
+  cat(c('Starting model',
+        paste(filename, runtime, sep = "-"),
+        '\n'))
+
   # Create copy of the model
   tm1 <- NANNO_model()
 
@@ -59,23 +63,19 @@ NANNO_fit <- function(filename) {
   # Assign the init() values from the field data
   # Assume only TAN and NO3 field data for now
   # Add conditions for NA values
-  init(tm1) <-  c(NH3=fNH3init * yobs[1, "TAN"],
-                  NH4=fNH4init * yobs[1, "TAN"],
+  init(tm1) <-  c(TAN=yobs[1, "TAN"],
                   NO2=0.5*yobs[1, "NO3"],
                   NO3=yobs[1, "NO3"],
-                  TAN=yobs[1, "TAN"],
                   N2O=0.01,
-                  isoNH3=fNH3init*yobs[1, "TAN"]*deltaToRatio(ratioToDelta(yobs[1, "isoTAN"]/yobs[1, "TAN"]) + fNH4init * yobs[1, "TAN"]),
-                  isoNH4=fNH4init*yobs[1, "TAN"]*deltaToRatio(ratioToDelta(yobs[1, "isoTAN"]/yobs[1, "TAN"]) + fNH3init * yobs[1, "TAN"]),
+                  isoTAN=yobs[1, "isoTAN"],
                   isoNO2=0.5*yobs[1, "isoNO3"],
                   isoNO3=yobs[1, "isoNO3"],
-                  isoTAN=yobs[1, "isoTAN"],
                   isoN2O=0.01*deltaToRatio(-20))
   parms(tm1) <- c(parms(tm1), init(tm1)) # Do the init() values need to be altered any other way?
 
   # Define an intifunc that copies these parameters back to init
   initfunc(tm1) <- function(obj) {
-    init(obj) <- parms(obj)[c("NH3", "NH4", "NO2", "NO3", "TAN", "N2O", "isoNH3", "isoNH4", "isoNO2", "isoNO3", "isoTAN", "isoN2O")] # Note!  Order is important!
+    init(obj) <- parms(obj)[c("TAN", "NO2", "NO3", "N2O", "isoTAN", "isoNO2", "isoNO3", "isoN2O")] # Note!  Order is important!
     obj
   }
 
@@ -98,12 +98,15 @@ NANNO_fit <- function(filename) {
              NO3=1.001*yobs[1, "NO3"], isoNO3=1.0005*yobs[1, "isoNO3"], TAN=1.001*yobs[1, "TAN"], isoTAN=1.0005*yobs[1, "isoTAN"])
 
   # Fit the data
+  cat(c('Running model',
+        paste(filename, runtime, sep = "-"),
+        '\n'))
   res <- fitOdeModel(tm1, whichpar = whichpar, obstime, yobs,
-                     debuglevel=0, fn = ssqOdeModel,
-                     method = "PORT", lower = lower, upper = upper,
+                     debuglevel=1, fn = ssqOdeModel,
+                     method = "newuoa", lower = lower, upper = upper,
                      control = list(trace = TRUE),
                      atol=1e-9, rtol=1e-9,
-                     scale = 1/upper)
+                     scale.par = 1/upper)
 
   # Assign fitted parameters to scenario tm1
   parms(tm1)[whichpar] <- res$par
@@ -117,16 +120,18 @@ NANNO_fit <- function(filename) {
   yobs <- calcDeltas(yobs)
   two_part_figure_with_obs(ysim1, yobs, obstime)
 
-  print(c('NANNO results',
-          paste(filename, runtime, sep = "-")))
+  cat(c('NANNO results',
+        paste(filename, runtime, sep = "-"),
+        '\n'))
+
   print(res$par)
 
   fit_stats <- NANNO_fit_stats(ysim1, yobs, obstime)
   fit_params <- NANNO_fit_params(tm1, whichpar)
-  fit_masses <- NANNO_calc_masses(tm1, ysim1)
+  fit_masses <- NANNO_calc_masses(tm1, ysim1, obspH)
   write.csv(fit_stats, file = paste(paste(filename, runtime, "fit_stats", sep = "-"), "csv", sep = "."))
-  write.csv(fit_params, file = paste(paste(filename, runtime, "fit_params", sep = "-"), "csv", sep = "."))
-  write.csv(fit_masses, file = paste(paste(filename, runtime, "fit_masses", sep = "-"), "csv", sep = "."))
+  write.csv(fit_params, file = paste(paste(filename, runtime, "fit_params", sep = "-"), "csv", sep = "."), row.names = TRUE)
+  write.csv(fit_masses, file = paste(paste(filename, runtime, "fit_masses", sep = "-"), "csv", sep = "."), row.names = FALSE)
 
   return(tm1)
 }
