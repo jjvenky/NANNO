@@ -102,11 +102,11 @@ NANNO_fit <- function(filename) {
         paste(filename, runtime, sep = "-"),
         '\n'))
   res <- fitOdeModel(tm1, whichpar = whichpar, obstime, yobs,
-                     debuglevel=1, fn = ssqOdeModel,
+                     debuglevel = 1, fn = ssqOdeModel,
                      method = "newuoa", lower = lower, upper = upper,
                      control = list(trace = TRUE),
-                     atol=1e-9, rtol=1e-9,
-                     scale.par = 1/upper)
+                     atol=1e-6, rtol=1e-6,
+                     scale.par = 1/upper) # scale.par is only used by PORT
 
   # Assign fitted parameters to scenario tm1
   parms(tm1)[whichpar] <- res$par
@@ -118,7 +118,10 @@ NANNO_fit <- function(filename) {
   # Compare results
   ysim1 <- calcDeltas(ysim1)
   yobs <- calcDeltas(yobs)
-  two_part_figure_with_obs(ysim1, yobs, obstime)
+  g <- two_part_figure_with_obs(ysim1, yobs, obstime)
+  cairo_pdf(filename = paste(paste(filename, runtime, "fit", sep = "-"), "pdf", sep = "."), width = 7, height = 7)
+  grid::grid.draw(g)
+  dev.off()
 
   cat(c('NANNO results',
         paste(filename, runtime, sep = "-"),
@@ -129,7 +132,7 @@ NANNO_fit <- function(filename) {
   fit_stats <- NANNO_fit_stats(ysim1, yobs, obstime)
   fit_params <- NANNO_fit_params(tm1, whichpar)
   fit_masses <- NANNO_calc_masses(tm1, ysim1, obspH)
-  write.csv(fit_stats, file = paste(paste(filename, runtime, "fit_stats", sep = "-"), "csv", sep = "."))
+  write.csv(fit_stats, file = paste(paste(filename, runtime, "fit_stats", sep = "-"), "csv", sep = "."), row.names = TRUE)
   write.csv(fit_params, file = paste(paste(filename, runtime, "fit_params", sep = "-"), "csv", sep = "."), row.names = TRUE)
   write.csv(fit_masses, file = paste(paste(filename, runtime, "fit_masses", sep = "-"), "csv", sep = "."), row.names = FALSE)
 
