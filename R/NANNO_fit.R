@@ -23,7 +23,7 @@ NANNO_fit <- function(filename) {
   # Runtime
   runtime <- format(Sys.time(), "%Y%m%dT%H%M%S")
 
-  cat(c('Starting model',
+  cat(c('Starting NANNO model',
         paste(filename, runtime, sep = "-"),
         '\n'))
 
@@ -98,13 +98,13 @@ NANNO_fit <- function(filename) {
              NO3=1.001*yobs[1, "NO3"], isoNO3=1.0005*yobs[1, "isoNO3"], TAN=1.001*yobs[1, "TAN"], isoTAN=1.0005*yobs[1, "isoTAN"])
 
   # Fit the data
-  cat(c('Running model',
+  cat(c('Running NANNO model',
         paste(filename, runtime, sep = "-"),
         '\n'))
   res <- fitOdeModel(tm1, whichpar = whichpar, obstime, yobs,
-                     debuglevel = 1, fn = ssqOdeModel,
+                     debuglevel = 0, fn = ssqOdeModel,
                      method = "newuoa", lower = lower, upper = upper,
-                     control = list(trace = TRUE),
+                     control = list(iprint = 2),
                      atol=1e-6, rtol=1e-6,
                      scale.par = 1/upper) # scale.par is only used by PORT
 
