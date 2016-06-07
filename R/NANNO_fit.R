@@ -119,7 +119,7 @@ NANNO_fit <- function(filename) {
   ysim1 <- calcDeltas(ysim1)
   yobs <- calcDeltas(yobs)
   g <- two_part_figure_with_obs(ysim1, yobs, obstime)
-  cairo_pdf(filename = paste(paste(filename, runtime, "fit", sep = "-"), "pdf", sep = "."), width = 7, height = 7)
+  cairo_pdf(filename = paste(paste(filename, runtime, "fit", sep = "-"), "pdf", sep = "."), width = 5, height = 7)
   grid::grid.draw(g)
   dev.off()
 
