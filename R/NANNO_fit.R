@@ -23,7 +23,7 @@ NANNO_fit <- function(filename) {
   # Runtime
   runtime <- format(Sys.time(), "%Y%m%dT%H%M%S")
 
-  cat(c('Starting NANNO model',
+  cat(c('NANNO: Starting model',
         paste(filename, runtime, sep = "-"),
         '\n'))
 
@@ -98,7 +98,7 @@ NANNO_fit <- function(filename) {
              NO3=1.001*yobs[1, "NO3"], isoNO3=1.0005*yobs[1, "isoNO3"], TAN=1.001*yobs[1, "TAN"], isoTAN=1.0005*yobs[1, "isoTAN"])
 
   # Fit the data
-  cat(c('Running NANNO model',
+  cat(c('NANNO: Running model',
         paste(filename, runtime, sep = "-"),
         '\n'))
   res <- fitOdeModel(tm1, whichpar = whichpar, obstime, yobs,
@@ -123,11 +123,11 @@ NANNO_fit <- function(filename) {
   grid::grid.draw(g)
   dev.off()
 
-  cat(c('NANNO results',
+  cat(c('NANNO: Results',
         paste(filename, runtime, sep = "-"),
         '\n'))
 
-  print(res$par)
+  #print(res$par)
 
   fit_stats <- NANNO_fit_stats(ysim1, yobs, obstime)
   fit_params <- NANNO_fit_params(tm1, whichpar)
@@ -135,6 +135,14 @@ NANNO_fit <- function(filename) {
   write.csv(fit_stats, file = paste(paste(filename, runtime, "fit_stats", sep = "-"), "csv", sep = "."), row.names = TRUE)
   write.csv(fit_params, file = paste(paste(filename, runtime, "fit_params", sep = "-"), "csv", sep = "."), row.names = TRUE)
   write.csv(fit_masses, file = paste(paste(filename, runtime, "fit_masses", sep = "-"), "csv", sep = "."), row.names = FALSE)
+
+  cat(c('SSE',
+        as.numeric(ssqOdeModel(NULL, tm1, obstime, subset(yobs, select = c(TAN, NO2, NO3, N2O, isoTAN, isoNO2, isoNO3, isoN2O))))))
+
+  g <- residuals_figures(ysim1, yobs, obstime)
+  cairo_pdf(filename = paste(paste(filename, runtime, "resid", sep = "-"), "pdf", sep = "."), width = 7, height = 5)
+  grid::grid.draw(g)
+  dev.off()
 
   return(tm1)
 }
