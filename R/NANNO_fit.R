@@ -137,7 +137,8 @@ NANNO_fit <- function(filename) {
   write.csv(fit_masses, file = paste(paste(filename, runtime, "fit_masses", sep = "-"), "csv", sep = "."), row.names = FALSE)
 
   cat(c('SSE',
-        as.numeric(ssqOdeModel(NULL, tm1, obstime, subset(yobs, select = c(TAN, NO2, NO3, N2O, isoTAN, isoNO2, isoNO3, isoN2O))))))
+        as.numeric(ssqOdeModel(NULL, NANNOmodel, obstime, subset(yobs, select = c(TAN, NO2, NO3, N2O, isoTAN, isoNO2, isoNO3, isoN2O)))),
+        '\n'))
 
   g <- residuals_figures(ysim1, yobs, obstime)
   cairo_pdf(filename = paste(paste(filename, runtime, "resid", sep = "-"), "pdf", sep = "."), width = 7, height = 5)
