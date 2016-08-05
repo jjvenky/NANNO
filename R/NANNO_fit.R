@@ -3,7 +3,7 @@
 #' This function takes field data and iteratively fits
 #' @param filename The base name of the files to be used in NANNO model fitting.
 #' @keywords NANNO
-#' @export
+#' @export NANNOmodel S4 object of the NANNO model with fitted parameters (Formal class odeModel)
 #' @examples
 #' NANNO_fit(filename)
 
