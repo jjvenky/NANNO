@@ -29,7 +29,7 @@ two_part_figure <- function(ysim) {
 
 #' Two Part Figure Function with All Stocks
 #'
-#' This function takes model simulations and plots them with all 5 concentrations (NO2- NO3-, TAN, N2O, DIN) on one row and isotopes on another.
+#' This function takes model simulations and plots them with all 4 concentrations (NO3-, TAN, N2O, DIN) on one row and isotopes on another.
 #' @param ysim The NANNO model simulation results.
 #' @keywords NANNO
 #' @export
@@ -37,14 +37,14 @@ two_part_figure <- function(ysim) {
 #' two_part_figure(ysim)
 
 two_part_figure_all <- function(ysim) {
-  g.top <- ggplot2::ggplot(reshape2::melt(subset(ysim, select = c(time, NO2, NO3, TAN, N2O, DIN)), id.vars = "time"),
+  g.top <- ggplot2::ggplot(reshape2::melt(subset(ysim, select = c(time, NO3, TAN, N2O, DIN)), id.vars = "time"),
                            ggplot2::aes(x = time, y = value, colour = variable)) +
     ggplot2::geom_line(size = 1) +
     ggplot2::labs(x = "", y = "Concentration (mgN/L)", colour = "") +
     ggplot2::theme(legend.position = "none", legend.box = "horizontal") +
     ggplot2::scale_y_continuous(limits = c(0, 25)) +
-    ggplot2::scale_colour_discrete(labels = c(expression(NO[2]^"-"), expression(NO[3]^"-"), expression(TAN), expression(N[2] * O), expression(DIN)))
-  g.bottom <- ggplot2::ggplot(reshape2::melt(subset(ysim, select = c(time, deltaNO2, deltaNO3, deltaTAN, deltaN2O, deltaDIN)), id.vars = "time"),
+    ggplot2::scale_colour_discrete(labels = c(expression(NO[3]^"-"), expression(TAN), expression(N[2] * O), expression(DIN)))
+  g.bottom <- ggplot2::ggplot(reshape2::melt(subset(ysim, select = c(time, deltaNO3, deltaTAN, deltaN2O, deltaDIN)), id.vars = "time"),
                               ggplot2::aes(x = time, y = value, colour = variable)) +
     ggplot2::geom_line(size = 1) +
     ggplot2::labs(x = "Distance (m)", y = expression("\u3b4"^{15}*"N (\u2030 vs air)"), colour = "") +
