@@ -18,7 +18,6 @@ NANNO_calc_masses <- function(NANNOmodel, ysim, pH) {
   masses <- data.frame(ge = sum(parms(NANNOmodel)["kge"] * NH3[-1]),
                        amup = sum(parms(NANNOmodel)["kamup"] * NH4[-1]),
                        nit1 = sum(parms(NANNOmodel)["knit1"] * NH4[-1]),
-                       nit2 = sum(parms(NANNOmodel)["knit2"] * ysim$NO2[-1]),
                        denit = sum(parms(NANNOmodel)["kdenit"] * ysim$NO3[-1])
   )
   return(masses)

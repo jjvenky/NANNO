@@ -24,7 +24,7 @@ recreate_NANNO_fit <- function (NANNOmodel, filename) {
   # Prepare data
   yobs <- calcIsos(yobs)
   obstime <- yobs$X
-  yobs <- subset(yobs, select = -c(X, deltaTAN, deltaNO2, deltaNO3, deltaN2O, pH))
+  yobs <- subset(yobs, select = -c(X, deltaTAN, deltaNO3, deltaN2O, pH))
   ysim <- calcDeltas(ysim)
   yobs <- calcDeltas(yobs)
 
@@ -36,6 +36,6 @@ recreate_NANNO_fit <- function (NANNOmodel, filename) {
 
   # Print SSE value on screen
   cat(c('SSE',
-        as.numeric(ssqOdeModel(NULL, NANNOmodel, obstime, subset(yobs, select = c(TAN, NO2, NO3, N2O, isoTAN, isoNO2, isoNO3, isoN2O)))),
+        as.numeric(ssqOdeModel(NULL, NANNOmodel, obstime, subset(yobs, select = c(TAN, NO3, N2O, isoTAN, isoNO3, isoN2O)))),
         '\n'))
 }
