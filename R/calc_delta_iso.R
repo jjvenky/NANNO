@@ -8,14 +8,16 @@
 #' calcDeltas(ysim)
 
 calcDeltas <- function(ysim) {
-  ysim$DIN <- ysim$TAN + ysim$NO2 + ysim$NO3
+  ysim$DIN <- ysim$TAN + ysim$NO3
+  # ysim$DIN <- ysim$TAN + ysim$NO2 + ysim$NO3
   # ysim$deltaNH3 <- ratioToDelta(ysim$isoNH3/ysim$NH3)
   # ysim$deltaNH4 <- ratioToDelta(ysim$isoNH4/ysim$NH4)
   ysim$deltaTAN <- ratioToDelta(ysim$isoTAN/ysim$TAN)
   # ysim$deltaNO2 <- ratioToDelta(ysim$isoNO2/ysim$NO2)
   ysim$deltaNO3 <- ratioToDelta(ysim$isoNO3/ysim$NO3)
   ysim$deltaN2O <- ratioToDelta(ysim$isoN2O/ysim$N2O)
-  ysim$deltaDIN <- (ysim$TAN * ysim$deltaTAN  + ysim$NO3 * ysim$deltaNO3)/(ysim$TAN + ysim$NO3)
+  # ysim$deltaDIN <- (ysim$TAN * ysim$deltaTAN + + ysim$NO2 * ysim$deltaNO2 + ysim$NO3 * ysim$deltaNO3)/(ysim$TAN + ysim$NO2 + ysim$NO3)
+  ysim$deltaDIN <- (ysim$TAN * ysim$deltaTAN + ysim$NO3 * ysim$deltaNO3)/(ysim$TAN + ysim$NO3)
   return(ysim)
 }
 

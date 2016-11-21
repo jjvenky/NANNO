@@ -20,7 +20,7 @@ NANNO_model <- function() {
     rnit1 <- p["knit1"] * TAN_vals["NH4"]
 #    rnit2 <- p["knit2"] * x["NO2"]
     ramup <- p["kamup"] * TAN_vals["NH4"]
- #   rniup <- p["kniup"] * x["NO3"]
+#   rniup <- p["kniup"] * x["NO3"]
     rdenit <- p["kdenit"] * x["NO3"]
     rge <- p["kge"] * TAN_vals["NH3"]
     dTAN <- - rge - rnit1 - ramup
@@ -46,7 +46,6 @@ NANNO_model <- function() {
                kamup = 0.001,
                age = 0.995,
                anit1 = 0.99,
-               anit2 = 0.99,
                adenit = 0.985,
                aamup = 0.996,
                aniup = 0.992,

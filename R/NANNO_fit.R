@@ -64,8 +64,8 @@ NANNO_fit <- function(filename) {
   # Assume only TAN and NO3 field data for now
   # Add conditions for NA values
   init(tm1) <-  c(TAN=yobs[1, "TAN"],
-                  NO2=0.5*yobs[1, "NO3"],
                   NO3=yobs[1, "NO3"],
+                  N2O=0.01,
                   isoTAN=yobs[1, "isoTAN"],
                   isoNO3=yobs[1, "isoNO3"],
                   isoN2O=0.01*deltaToRatio(-20))
@@ -73,7 +73,7 @@ NANNO_fit <- function(filename) {
 
   # Define an intifunc that copies these parameters back to init
   initfunc(tm1) <- function(obj) {
-    init(obj) <- parms(obj)[c("TAN", "NO3", "N2O", "isoTAN", "isoNO2", "isoNO3", "isoN2O")] # Note!  Order is important!
+    init(obj) <- parms(obj)[c("TAN", "NO3", "N2O", "isoTAN", "isoNO3", "isoN2O")] # Note!  Order is important!
     obj
   }
 
@@ -101,7 +101,7 @@ NANNO_fit <- function(filename) {
         '\n'))
   res <- fitOdeModel(tm1, whichpar = whichpar, obstime, yobs,
                      debuglevel = 0, fn = ssqOdeModel,
-                     method = "newuoa", lower = lower, upper = upper,
+                     method = "bobyqa", lower = lower, upper = upper,
                      control = list(iprint = 2),
                      atol=1e-6, rtol=1e-6,
                      scale.par = 1/upper) # scale.par is only used by PORT
