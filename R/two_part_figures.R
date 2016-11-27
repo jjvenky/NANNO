@@ -50,7 +50,7 @@ two_part_figure_all <- function(ysim) {
     ggplot2::labs(x = "Distance (m)", y = expression("\u3b4"^{15}*"N (\u2030 vs air)"), colour = "") +
     ggplot2::theme(legend.position = "bottom", legend.box = "horizontal") +
     ggplot2::scale_y_continuous(limits = c(-21, 40)) +
-    ggplot2::scale_colour_discrete(labels = c(expression(NO[2]^"-"), expression(NO[3]^"-"), expression(TAN), expression(N[2] * O), expression(DIN)))
+    ggplot2::scale_colour_discrete(labels = c(expression(NO[3]^"-"), expression(TAN), expression(N[2] * O), expression(DIN)))
   g.all <- gridExtra::grid.arrange(g.top, g.bottom, heights = c(0.5, 0.5))
   return(g.all)
 }
