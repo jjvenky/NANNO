@@ -12,8 +12,5 @@ NANNO_test <- function() {
   NANNO.out <- calcDeltas(NANNO.out)
   NANNO.out.melt <- reshape2::melt(subset(NANNO.out, select = -c(isoTAN, isoNO2, isoNO3, isoN2O)), id.vars = "time")
   cat('Creating basic plot of NANNO model results.')
-  ggplot2::ggplot(NANNO.out.melt, ggplot2::aes(x = time, y = value, colour = variable)) +
-    ggplot2::geom_line(size = 1) +
-    ggplot2::facet_wrap(~variable, scales = "free", ncol = 5) +
-    ggplot2::guides(colour = FALSE)
+  two_part_figure_all(NANNO.out)
 }

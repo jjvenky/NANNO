@@ -3,7 +3,7 @@
 #' This function takes field data and iteratively fits
 #' @param filename The base name of the files to be used in NANNO model fitting.
 #' @keywords NANNO
-#' @export
+#' @export NANNOmodel S4 object of the NANNO model with fitted parameters (Formal class odeModel)
 #' @examples
 #' NANNO_fit(filename)
 
@@ -23,7 +23,7 @@ NANNO_fit <- function(filename) {
   # Runtime
   runtime <- format(Sys.time(), "%Y%m%dT%H%M%S")
 
-  cat(c('Starting model',
+  cat(c('NANNO: Starting model',
         paste(filename, runtime, sep = "-"),
         '\n'))
 
@@ -54,7 +54,7 @@ NANNO_fit <- function(filename) {
   fNH3init <- (10^-9.25/10^-obspH)/(1+10^-9.25/10^-obspH)
   fNH4init <- 1 - fNH3init
   initdeltaTAN <- yobs[1, "deltaTAN"]
-  yobs <- subset(yobs, select = -c(X, deltaTAN, deltaNO2, deltaNO3, deltaN2O, pH))
+  yobs <- subset(yobs, select = -c(X, deltaTAN, deltaNO3, deltaN2O, pH))
 
   # Set times
   times(tm1) <- obstime
@@ -64,18 +64,16 @@ NANNO_fit <- function(filename) {
   # Assume only TAN and NO3 field data for now
   # Add conditions for NA values
   init(tm1) <-  c(TAN=yobs[1, "TAN"],
-                  NO2=0.5*yobs[1, "NO3"],
                   NO3=yobs[1, "NO3"],
                   N2O=0.01,
                   isoTAN=yobs[1, "isoTAN"],
-                  isoNO2=0.5*yobs[1, "isoNO3"],
                   isoNO3=yobs[1, "isoNO3"],
                   isoN2O=0.01*deltaToRatio(-20))
   parms(tm1) <- c(parms(tm1), init(tm1)) # Do the init() values need to be altered any other way?
 
   # Define an intifunc that copies these parameters back to init
   initfunc(tm1) <- function(obj) {
-    init(obj) <- parms(obj)[c("TAN", "NO2", "NO3", "N2O", "isoTAN", "isoNO2", "isoNO3", "isoN2O")] # Note!  Order is important!
+    init(obj) <- parms(obj)[c("TAN", "NO3", "N2O", "isoTAN", "isoNO3", "isoN2O")] # Note!  Order is important!
     obj
   }
 
@@ -89,7 +87,7 @@ NANNO_fit <- function(filename) {
   # Currently only adjusting the TAN and NO3 init values since that is all we have measured
   # but will have to do this for all parameters to improve fit with real data
   # Consider do it using the values from init()
-  whichpar  <- c("kge", "knit1", "knit2", "kdenit", "kamup", "anit1", "anit2", "adenit", "aamup", "NO3", "isoNO3", "TAN", "isoTAN")
+  whichpar  <- c("kge", "knit1", "kdenit", "kamup", "anit1", "adenit", "aamup", "NO3", "isoNO3", "TAN", "isoTAN")
   parms(tm1)[whichpar] <- c(initial,
                             NO3=yobs[1, "NO3"], isoNO3=yobs[1, "isoNO3"], TAN=yobs[1, "TAN"], isoTAN=yobs[1, "isoTAN"])
   lower <- c(lower,
@@ -98,15 +96,15 @@ NANNO_fit <- function(filename) {
              NO3=1.001*yobs[1, "NO3"], isoNO3=1.0005*yobs[1, "isoNO3"], TAN=1.001*yobs[1, "TAN"], isoTAN=1.0005*yobs[1, "isoTAN"])
 
   # Fit the data
-  cat(c('Running model',
+  cat(c('NANNO: Running model',
         paste(filename, runtime, sep = "-"),
         '\n'))
   res <- fitOdeModel(tm1, whichpar = whichpar, obstime, yobs,
-                     debuglevel=1, fn = ssqOdeModel,
-                     method = "newuoa", lower = lower, upper = upper,
-                     control = list(trace = TRUE),
-                     atol=1e-9, rtol=1e-9,
-                     scale.par = 1/upper)
+                     debuglevel = 0, fn = ssqOdeModel,
+                     method = "bobyqa", lower = lower, upper = upper,
+                     control = list(iprint = 2),
+                     atol=1e-6, rtol=1e-6,
+                     scale.par = 1/upper) # scale.par is only used by PORT
 
   # Assign fitted parameters to scenario tm1
   parms(tm1)[whichpar] <- res$par
@@ -118,20 +116,32 @@ NANNO_fit <- function(filename) {
   # Compare results
   ysim1 <- calcDeltas(ysim1)
   yobs <- calcDeltas(yobs)
-  two_part_figure_with_obs(ysim1, yobs, obstime)
+  g <- two_part_figure_with_obs(ysim1, yobs, obstime)
+  cairo_pdf(filename = paste(paste(filename, runtime, "fit", sep = "-"), "pdf", sep = "."), width = 5, height = 7)
+  grid::grid.draw(g)
+  dev.off()
 
-  cat(c('NANNO results',
+  cat(c('NANNO: Results',
         paste(filename, runtime, sep = "-"),
         '\n'))
 
-  print(res$par)
+  #print(res$par)
 
   fit_stats <- NANNO_fit_stats(ysim1, yobs, obstime)
   fit_params <- NANNO_fit_params(tm1, whichpar)
   fit_masses <- NANNO_calc_masses(tm1, ysim1, obspH)
-  write.csv(fit_stats, file = paste(paste(filename, runtime, "fit_stats", sep = "-"), "csv", sep = "."))
+  write.csv(fit_stats, file = paste(paste(filename, runtime, "fit_stats", sep = "-"), "csv", sep = "."), row.names = TRUE)
   write.csv(fit_params, file = paste(paste(filename, runtime, "fit_params", sep = "-"), "csv", sep = "."), row.names = TRUE)
   write.csv(fit_masses, file = paste(paste(filename, runtime, "fit_masses", sep = "-"), "csv", sep = "."), row.names = FALSE)
+
+  cat(c('SSE',
+        as.numeric(ssqOdeModel(NULL, tm1, obstime, subset(yobs, select = c(TAN, NO3, N2O, isoTAN, isoNO3, isoN2O)))),
+        '\n'))
+
+  g <- residuals_figures(ysim1, yobs, obstime)
+  cairo_pdf(filename = paste(paste(filename, runtime, "resid", sep = "-"), "pdf", sep = "."), width = 7, height = 5)
+  grid::grid.draw(g)
+  dev.off()
 
   return(tm1)
 }
