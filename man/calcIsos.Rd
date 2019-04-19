@@ -16,4 +16,3 @@ This function takes model simulations and calculates delta values.
 calcDeltas(ysim)
 }
 \keyword{NANNO}
-

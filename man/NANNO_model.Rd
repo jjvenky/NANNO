@@ -8,10 +8,11 @@ NANNO_model()
 }
 \description{
 This function is the NANNO model. It is a forward-running model that can be coupled with a script to fit field data.
+By default it contains initial conditions for the state values and parameters so that it can be run as a demonstration.
+These values are adjustable and fitable with NANNO_fit() and the regular simeol interface.
 }
 \examples{
 NANNO_model()
 
 }
 \keyword{NANNO}
-

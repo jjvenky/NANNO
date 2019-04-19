@@ -16,4 +16,3 @@ This function converts delta values into isotopic ratios for nitrogen.
 deltaToRatio(delta)
 }
 \keyword{NANNO}
-

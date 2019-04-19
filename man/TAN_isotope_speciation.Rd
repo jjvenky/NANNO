@@ -20,4 +20,3 @@ This function takes TAN concentration and pH and calculates/returns the iso valu
 TAN_isotope_speciation(TAN, isoTAN, pH)
 }
 \keyword{NANNO}
-

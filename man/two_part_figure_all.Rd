@@ -10,10 +10,12 @@ two_part_figure_all(ysim)
 \item{ysim}{The NANNO model simulation results.}
 }
 \description{
-This function takes model simulations and plots them with all 5 concentrations (NO2- NO3-, TAN, N2O, DIN) on one row and isotopes on another.
+This function takes model simulations and plots them with all 4 concentrations (NO3-, TAN, N2O, DIN) on one row and isotopes on another.
+Colours are from scales::hue_pal()(5) to use the same colour for all 5 potential variables
+"#F8766D" "#A3A500" "#00BF7D" "#00B0F6" "#E76BF3"
+See https://github.com/hadley/scales/blob/master/R/pal-hue.r
 }
 \examples{
 two_part_figure(ysim)
 }
 \keyword{NANNO}
-

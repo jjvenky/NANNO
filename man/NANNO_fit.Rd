@@ -16,4 +16,3 @@ This function takes field data and iteratively fits
 NANNO_fit(filename)
 }
 \keyword{NANNO}
-

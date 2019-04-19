@@ -4,18 +4,19 @@
 \alias{NANNO_calc_masses}
 \title{Calculate Masses For Each Process}
 \usage{
-NANNO_calc_masses(NANNOmodel, ysim)
+NANNO_calc_masses(NANNOmodel, ysim, pH)
 }
 \arguments{
 \item{NANNOmodel}{The NANNO model object, typically after model fitting.}
 
 \item{ysim}{The NANNO model simulation results.}
+
+\item{obspH}{The observed pH.}
 }
 \description{
 This function takes model results from a NANNOmodel via parms() and simulation values from ysim and calculates the mass of nitrogen moved by each process
 }
 \examples{
-NANNO_calc_masses(NANNOmodel, ysim)
+NANNO_calc_masses(NANNOmodel, ysim, obspH)
 }
 \keyword{NANNO}
-

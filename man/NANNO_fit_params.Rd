@@ -18,4 +18,3 @@ This function takes model simulations and observations and calculates fitting st
 NANNO_fit_params(NANNOmodel, whichpar)
 }
 \keyword{NANNO}
-
