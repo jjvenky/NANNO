@@ -1,3 +1,6 @@
+# ggplot2 data-masked column names, declared for R CMD check
+globalVariables(c("time", "variable", "value", "resid"))
+
 # Internal colour palette shared by all figures (scales::hue_pal()(5))
 nanno_colours <- c(NO2 = "#F8766D", NO3 = "#A3A500", TAN = "#00BF7D",
                    N2O = "#00B0F6", DIN = "#E76BF3",
@@ -29,7 +32,7 @@ nanno_two_part <- function(melted_top, melted_bottom, top_labels, bottom_labels,
     g.bottom <- g.bottom + ggplot2::geom_point(data = obs_bottom, size = 4, na.rm = TRUE)
   }
   g.bottom <- g.bottom +
-    ggplot2::labs(x = x_label, y = expression("\u3b4"^{15}*"N (\u2030 vs air)"),
+    ggplot2::labs(x = x_label, y = expression(delta^{15}*N*" (per mil vs air)"),
                   colour = "") +
     ggplot2::coord_cartesian(ylim = y_limits_bottom) +
     ggplot2::theme(legend.position = "bottom", legend.box = "horizontal") +
@@ -108,8 +111,8 @@ two_part_figure_all <- function(ysim) {
 #' @export
 #' @examples
 #' ysim <- calcDeltas(simecol::out(simecol::sim(NANNO_model())))
-#' yobs <- calcDeltas(read.csv(system.file("extdata", "NANNO_example-data.csv",
-#'                                         package = "NANNO")))
+#' yobs <- calcDeltas(calcIsos(read.csv(system.file("extdata", "NANNO_example-data.csv",
+#'                                         package = "NANNO"))))
 #' two_part_figure_with_obs(ysim, yobs, yobs$X)
 two_part_figure_with_obs <- function(ysim, yobs, obstime) {
   conc <- c("NO3", "TAN", "DIN")

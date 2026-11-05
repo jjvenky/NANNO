@@ -23,7 +23,7 @@ row and the delta values on another, with observations as points.
 }
 \examples{
 ysim <- calcDeltas(simecol::out(simecol::sim(NANNO_model())))
-yobs <- calcDeltas(read.csv(system.file("extdata", "NANNO_example-data.csv",
-                                        package = "NANNO"), check.names = FALSE))
+yobs <- calcDeltas(calcIsos(read.csv(system.file("extdata", "NANNO_example-data.csv",
+                                        package = "NANNO"))))
 two_part_figure_with_obs(ysim, yobs, yobs$X)
 }

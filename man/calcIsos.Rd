@@ -19,6 +19,6 @@ Takes observations and calculates isotope pools from the delta values.
 }
 \examples{
 yobs <- read.csv(system.file("extdata", "NANNO_example-data.csv",
-                             package = "NANNO"), check.names = FALSE)
+                             package = "NANNO"))
 calcIsos(yobs)
 }

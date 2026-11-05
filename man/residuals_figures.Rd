@@ -23,7 +23,7 @@ them for each measured variable.
 }
 \examples{
 ysim <- calcDeltas(simecol::out(simecol::sim(NANNO_model())))
-yobs <- calcDeltas(read.csv(system.file("extdata", "NANNO_example-data.csv",
-                                        package = "NANNO"), check.names = FALSE))
+yobs <- calcDeltas(calcIsos(read.csv(system.file("extdata", "NANNO_example-data.csv",
+                                        package = "NANNO"))))
 residuals_figures(ysim, yobs, yobs$X)
 }

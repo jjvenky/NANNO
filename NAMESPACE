@@ -18,3 +18,16 @@ export(residuals_figures)
 export(two_part_figure)
 export(two_part_figure_all)
 export(two_part_figure_with_obs)
+import(simecol)
+importFrom(grDevices,cairo_pdf)
+importFrom(methods,new)
+importFrom(stats,
+  cor,
+  setNames
+)
+importFrom(tools,file_path_sans_ext)
+importFrom(utils,
+  globalVariables,
+  read.csv,
+  write.csv
+)

@@ -1,3 +1,11 @@
+#' @import simecol
+#' @importFrom grDevices cairo_pdf
+#' @importFrom methods new
+#' @importFrom stats cor setNames
+#' @importFrom tools file_path_sans_ext
+#' @importFrom utils globalVariables read.csv write.csv
+NULL
+
 # Internal package constants for NANNO -------------------------------------
 #
 # Central definitions for the isotope standards and equilibrium chemistry so

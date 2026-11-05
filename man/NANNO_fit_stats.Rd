@@ -24,6 +24,6 @@ variable.
 \examples{
 ysim <- calcDeltas(simecol::out(simecol::sim(NANNO_model())))
 yobs <- calcIsos(read.csv(system.file("extdata", "NANNO_example-data.csv",
-                                      package = "NANNO"), check.names = FALSE))
+                                      package = "NANNO")))
 NANNO_fit_stats(ysim, yobs, yobs$X)
 }

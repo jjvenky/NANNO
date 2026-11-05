@@ -11,8 +11,8 @@
 #' @export
 #' @examples
 #' ysim <- calcDeltas(simecol::out(simecol::sim(NANNO_model())))
-#' yobs <- calcDeltas(read.csv(system.file("extdata", "NANNO_example-data.csv",
-#'                                         package = "NANNO")))
+#' yobs <- calcDeltas(calcIsos(read.csv(system.file("extdata", "NANNO_example-data.csv",
+#'                                         package = "NANNO"))))
 #' residuals_figures(ysim, yobs, yobs$X)
 residuals_figures <- function(ysim, yobs, obstime) {
   a <- ysim[match(obstime, ysim$time),
@@ -35,5 +35,5 @@ residuals_figures <- function(ysim, yobs, obstime) {
     ggplot2::geom_point() +
     ggplot2::geom_hline(yintercept = 0) +
     ggplot2::facet_wrap(~variable, scales = "free", labeller = "label_parsed") +
-    ggplot2::labs(x = "Distance (m)", y = "Residual (mgN/L or \u2030 vs air)")
+    ggplot2::labs(x = "Distance (m)", y = expression("Residual (mgN/L or" ~ delta^{15}*N ~ "vs air)"))
 }
