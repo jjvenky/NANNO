@@ -46,7 +46,7 @@ NANNO_fit <- function(filename, output_dir = NULL, init_bound_tol = 0.001,
   if (!file.exists(data_file)) {
     stop("Field data file not found: ", data_file, call. = FALSE)
   }
-  yobs <- read.csv(data_file, check.names = FALSE)
+  yobs <- read.csv(data_file)
 
   # Load parameters to be fit and their bounds
   bounds_file <- if (grepl("\\.csv$", filename)) {

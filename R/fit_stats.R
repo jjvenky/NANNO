@@ -12,7 +12,7 @@
 #' @examples
 #' ysim <- calcDeltas(simecol::out(simecol::sim(NANNO_model())))
 #' yobs <- calcIsos(read.csv(system.file("extdata", "NANNO_example-data.csv",
-#'                                       package = "NANNO"), check.names = FALSE))
+#'                                       package = "NANNO")))
 #' NANNO_fit_stats(ysim, yobs, yobs$X)
 NANNO_fit_stats <- function(ysim, yobs, obstime) {
   # Select simulated values at the observation times by matching time values,

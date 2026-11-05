@@ -19,14 +19,14 @@ NANNO_input_converting <- function(filename) {
   } else {
     paste(paste(filename, "bounds", sep = "-"), "csv", sep = ".")
   }
-  input <- read.csv(bounds_file, check.names = FALSE)
+  input <- read.csv(bounds_file)
   needed <- c("variable", "lower", "upper", "initial")
   missing_cols <- setdiff(needed, names(input))
   if (length(missing_cols) > 0) {
     stop("Bounds file is missing column(s): ",
          paste(missing_cols, collapse = ", "), call. = FALSE)
   }
-  setNames(data.frame(t(input[, -1], deparse.level = 0),
+  setNames(data.frame(t(input[, -1]),
                       stringsAsFactors = FALSE),
            input[, 1])
 }

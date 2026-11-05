@@ -109,7 +109,7 @@ two_part_figure_all <- function(ysim) {
 #' @examples
 #' ysim <- calcDeltas(simecol::out(simecol::sim(NANNO_model())))
 #' yobs <- calcDeltas(read.csv(system.file("extdata", "NANNO_example-data.csv",
-#'                                         package = "NANNO"), check.names = FALSE))
+#'                                         package = "NANNO")))
 #' two_part_figure_with_obs(ysim, yobs, yobs$X)
 two_part_figure_with_obs <- function(ysim, yobs, obstime) {
   conc <- c("NO3", "TAN", "DIN")

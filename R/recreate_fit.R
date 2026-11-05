@@ -25,7 +25,7 @@ recreate_NANNO_fit <- function(NANNOmodel, filename) {
   if (!file.exists(data_file)) {
     stop("Field data file not found: ", data_file, call. = FALSE)
   }
-  yobs <- read.csv(data_file, check.names = FALSE)
+  yobs <- read.csv(data_file)
   yobs <- calcIsos(yobs)
   obstime <- yobs$X
   yobs <- yobs[, !names(yobs) %in% c("X", "deltaTAN", "deltaNO3",

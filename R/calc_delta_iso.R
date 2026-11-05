@@ -34,7 +34,7 @@ calcDeltas <- function(ysim) {
 #' @export
 #' @examples
 #' yobs <- read.csv(system.file("extdata", "NANNO_example-data.csv",
-#'                              package = "NANNO"), check.names = FALSE)
+#'                              package = "NANNO"))
 #' calcIsos(yobs)
 calcIsos <- function(yobs) {
   yobs$isoTAN <- yobs$TAN * deltaToRatio(yobs$deltaTAN)

@@ -12,7 +12,7 @@
 #' @examples
 #' ysim <- calcDeltas(simecol::out(simecol::sim(NANNO_model())))
 #' yobs <- calcDeltas(read.csv(system.file("extdata", "NANNO_example-data.csv",
-#'                                         package = "NANNO"), check.names = FALSE))
+#'                                         package = "NANNO")))
 #' residuals_figures(ysim, yobs, yobs$X)
 residuals_figures <- function(ysim, yobs, obstime) {
   a <- ysim[match(obstime, ysim$time),
