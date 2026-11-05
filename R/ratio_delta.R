@@ -1,27 +1,25 @@
 #' Ratio To Delta Function
 #'
-#' This function converts isotopic ratios into delta values for nitrogen.
+#' Converts isotopic ratios into delta values for nitrogen.
+#'
 #' @param ratio The 15N/14N isotopic ratios.
-#' @keywords NANNO
+#' @return The corresponding delta15N values in permil.
 #' @export
 #' @examples
-#' ratioToDelta(ratio)
-
+#' ratioToDelta(0.0036765 * 1.005)
 ratioToDelta <- function(ratio) {
-    (ratio/0.0036765 - 1) * 1000
+  (ratio / nanno_constants$r_std - 1) * 1000
 }
 
-
-
-#' Ratio To Delta Function
+#' Delta To Ratio Function
 #'
-#' This function converts delta values into isotopic ratios for nitrogen.
-#' @param delta The delta15N values.
-#' @keywords NANNO
+#' Converts delta values into isotopic ratios for nitrogen.
+#'
+#' @param delta The delta15N values in permil.
+#' @return The corresponding 15N/14N isotopic ratios.
 #' @export
 #' @examples
-#' deltaToRatio(delta)
-
+#' deltaToRatio(5)
 deltaToRatio <- function(delta) {
-    (delta/1000 + 1) * 0.0036765
+  (delta / 1000 + 1) * nanno_constants$r_std
 }

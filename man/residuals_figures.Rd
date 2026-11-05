@@ -2,21 +2,28 @@
 % Please edit documentation in R/residuals_figures.R
 \name{residuals_figures}
 \alias{residuals_figures}
-\title{Two Part Figure with Observations Function}
+\title{Residuals Figure Function}
 \usage{
 residuals_figures(ysim, yobs, obstime)
 }
 \arguments{
 \item{ysim}{The NANNO model simulation results.}
 
-\item{yobs}{The field observations.}
+\item{yobs}{The field observations (with \code{deltaTAN} and
+\code{deltaNO3} columns, as returned by \code{calcDeltas}).}
 
-\item{obstime}{Field observation times.}
+\item{obstime}{The field observation times (distances).}
+}
+\value{
+A ggplot object of residuals against distance.
 }
 \description{
-This function takes model simulations and observations, calculate the residuals and plots them.
+Takes model output and observations, calculates the residuals, and plots
+them for each measured variable.
 }
 \examples{
-residuals_figures(ysim, yobs, obstime)
+ysim <- calcDeltas(simecol::out(simecol::sim(NANNO_model())))
+yobs <- calcDeltas(read.csv(system.file("extdata", "NANNO_example-data.csv",
+                                        package = "NANNO"), check.names = FALSE))
+residuals_figures(ysim, yobs, yobs$X)
 }
-\keyword{NANNO}

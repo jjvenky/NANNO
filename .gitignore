@@ -1,8 +1,9 @@
 # History files
 .Rhistory
 .Rapp.history
-# Session Data files
+# Session data files
 .RData
+.Ruserdata
 # Example code in package build process
 *-Ex.R
 # RStudio files
@@ -12,5 +13,10 @@ vignettes/*.html
 vignettes/*.pdf
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
-.Rproj.user
-.Rbuildignore
+# testthat snapshots
+tests/testthat/_snaps
+# R build artifacts
+.NANNO.Rd
+.Rbuildignore~
+*.tar.gz
+NANNO.Rcheck/

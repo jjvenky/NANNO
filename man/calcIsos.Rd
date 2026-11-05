@@ -4,15 +4,21 @@
 \alias{calcIsos}
 \title{Calculate Iso Values Function}
 \usage{
-calcIsos(ysim)
+calcIsos(yobs)
 }
 \arguments{
-\item{ysim}{The NANNO model simulation results.}
+\item{yobs}{A data frame of observations with columns \code{TAN},
+\code{NO3}, \code{deltaTAN}, and \code{deltaNO3}.}
+}
+\value{
+The input data frame with \code{isoTAN}, \code{isoNO3}, and
+  (where present) \code{isoN2O} columns added.
 }
 \description{
-This function takes model simulations and calculates delta values.
+Takes observations and calculates isotope pools from the delta values.
 }
 \examples{
-calcDeltas(ysim)
+yobs <- read.csv(system.file("extdata", "NANNO_example-data.csv",
+                             package = "NANNO"), check.names = FALSE)
+calcIsos(yobs)
 }
-\keyword{NANNO}

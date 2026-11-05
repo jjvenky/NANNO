@@ -7,12 +7,18 @@
 calcDeltas(ysim)
 }
 \arguments{
-\item{ysim}{The NANNO model simulation results.}
+\item{ysim}{A data frame of model output (or observations) with columns
+\code{TAN}, \code{NO3}, \code{isoTAN}, and \code{isoNO3}.}
+}
+\value{
+The input data frame with \code{DIN}, \code{deltaTAN},
+  \code{deltaNO3}, \code{deltaN2O}, and \code{deltaDIN} columns added.
 }
 \description{
-This function takes model simulations and calculates delta values.
+Takes model output or observations and calculates delta values from the
+isotope pools.
 }
 \examples{
+ysim <- simecol::out(simecol::sim(NANNO_model()))
 calcDeltas(ysim)
 }
-\keyword{NANNO}
