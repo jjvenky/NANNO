@@ -9,10 +9,12 @@ ratioToDelta(ratio)
 \arguments{
 \item{ratio}{The 15N/14N isotopic ratios.}
 }
+\value{
+The corresponding delta15N values in permil.
+}
 \description{
-This function converts isotopic ratios into delta values for nitrogen.
+Converts isotopic ratios into delta values for nitrogen.
 }
 \examples{
-ratioToDelta(ratio)
+ratioToDelta(0.0036765 * 1.005)
 }
-\keyword{NANNO}

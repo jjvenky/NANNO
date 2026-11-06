@@ -2,17 +2,19 @@
 % Please edit documentation in R/ratio_delta.R
 \name{deltaToRatio}
 \alias{deltaToRatio}
-\title{Ratio To Delta Function}
+\title{Delta To Ratio Function}
 \usage{
 deltaToRatio(delta)
 }
 \arguments{
-\item{delta}{The delta15N values.}
+\item{delta}{The delta15N values in permil.}
+}
+\value{
+The corresponding 15N/14N isotopic ratios.
 }
 \description{
-This function converts delta values into isotopic ratios for nitrogen.
+Converts delta values into isotopic ratios for nitrogen.
 }
 \examples{
-deltaToRatio(delta)
+deltaToRatio(5)
 }
-\keyword{NANNO}
